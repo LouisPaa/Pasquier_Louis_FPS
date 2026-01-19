@@ -11,12 +11,12 @@ public class Déplacement : MonoBehaviour
 
     private Vector3 moveD = Vector3.zero;
 
-    
+    public float mouseX = 10;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
     }
 
     // Je fais en sorte que mon personnage puisse se déplacer avec les touches ZQSD et saute avec Espace
@@ -49,6 +49,9 @@ public class Déplacement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpspeed);
             Grounded = false;
         } 
+
+        float xRotation = Input.GetAxis("Mouse X") * mouseX * Time.deltaTime; // Récupère le mouvement de la souris sur l'axe X 
+        transform.Rotate(0f, xRotation, 0f); // Fait tourner le personnage en fonction du mouvement de la souris
     }
 
          private void OnCollisionEnter(Collision collision) // Permet de détecter la collision avec le sol
