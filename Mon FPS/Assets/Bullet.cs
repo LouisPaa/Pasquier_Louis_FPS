@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public float speed = 100f;
     private BoxCollider collider;
     private Rigidbody rb;    
-
+    private Vector3 direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,9 +21,17 @@ public class Bullet : MonoBehaviour
         rb.linearVelocity = transform.forward * speed * Time.deltaTime; 
     }
 
+    public void Shoot(Vector3 direction)
+    {
+        this.direction = direction;
+        rb.linearVelocity = this.direction * speed;
+    }
     private void OnCollisionEnter(Collision collision)
     {
-       Destroy(gameObject);
+        //Destroy(gameObject);
+        var firstContact = collision.contacts[0];
+        Vector3 newVelocity = Vector3.Reflect(direction.normalized, firstContact.normal);
+        Shoot(newVelocity.normalized);
     }
 
 }
