@@ -890,17 +890,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180177658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 389a7a638fbf2ba41b6ab29c9e937247, type: 3}
+  m_Script: {fileID: 11500000, guid: 508d151a191b8e441a71037905749c5e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerShoot
-  weapon:
-    name: Fusil Flashball
-    damage: 10
-    range: 100
-  Camera: {fileID: 330585545}
-  mask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAction
+  Gun: {fileID: 0}
 --- !u!1 &1393342552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,8 +1282,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0a5c656f292ba4192e5aa55623ff8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
-  bulletPrefab: {fileID: 2507495380839788630, guid: f4a472ca437fb6b4fbbbd86ead67be55, type: 3}
   bulletPoint: {fileID: 1153238312}
+  ShootingSystem: {fileID: 0}
+  BulletSpawnPoint: {fileID: 0}
+  ImpactParticleSystem: {fileID: 0}
+  BulletTrail: {fileID: 0}
+  ShootDelay: 0.5
+  Speed: 100
+  Mask:
+    serializedVersion: 2
+    m_Bits: 0
+  BouncingBullets: 0
+  BounceDistance: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
