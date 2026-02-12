@@ -85,10 +85,10 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      // if (Input.GetMouseButtonDown(0)) // clic gauche
+      if (Input.GetMouseButtonDown(0)) // clic gauche
         {
 
-      //      Instantiate(bulletPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); // instancie une balle qui partira vers l'avant
+           Instantiate(BulletTrail, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); // instancie une balle qui partira vers l'avant
         } 
     }
 }

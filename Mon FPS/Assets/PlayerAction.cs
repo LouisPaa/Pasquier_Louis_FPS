@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    [SerializeField] private Gun Gun;
+    [SerializeField] public Gun Gun;
 
     public void OnShoot()
     {
