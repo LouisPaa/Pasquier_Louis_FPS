@@ -1,84 +1,157 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 public class EnnemyAI : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public Transform player;
-    public LayerMask Joueur,Sol;
+    [Header("References")]
+    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private Transform playerTransform;
 
-    //Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float WalkPointRange;
+    [Header("Layers")]
+    [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private LayerMask playerLayerMask;
 
-    //Attaque
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
+    [Header ("Patrol Settings")] 
+    [SerializeField] private float patrolRadius = 10f;
+    private Vector3 currentPatrolPoint;
+    private bool hasPatrolpoint;
 
-    //Stats
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    [Header("Combat Settings")]
+    [SerializeField] private float attackCooldown = 2f;
+    private bool isOnAttackCooldown;
+    [SerializeField] private float forwardShotForce = 10f;
+    [SerializeField] private float verticalShotForce = 5f;
 
-    private void Update()
-    {
-        // Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, Joueur);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, Joueur);
+    [Header("Detection Ranges")]  
+    [SerializeField] private float visionRange = 15f;
+    [SerializeField] private float engagementRange = 10f;
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
-    }
+    private bool isPlayerVisible;
+    private bool isPlayerInRange;
+
     private void Awake()
     {
-        player = GameObject.Find("Joueur").transform;
-        agent = GetComponent<NavMeshAgent>();
-    }
-
-    private void Patroling()
-    {
-        if (!walkPointSet) SearchWalkPoint();
-        if (walkPointSet)
-            agent.SetDestination(walkPoint);
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        // Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
-    }
-
-    private void SearchWalkPoint()
-    {
-        // Calculate radom point in range
-        float randomZ = Random.Range(-WalkPointRange, WalkPointRange);
-        float randomX = Random.Range(-WalkPointRange, WalkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, Sol))
-            walkPointSet = true;
-    }
-
-    private void ChasePlayer()
-    {
-        agent.SetDestination(player.position);
-    }
-
-    private void AttackPlayer()
-    {
-        agent.SetDestination(transform.position);
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (playerTransform == null)
         {
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            GameObject playerObj = GameObject.Find("Joueur");
+            if (playerObj != null)
+                playerTransform = playerObj.transform;
+
+            if (navAgent == null)
+                navAgent = GetComponent<NavMeshAgent>();
         }
     }
 
-    private void ResetAttack()
+    private void Update()
     {
-        alreadyAttacked = false;
+        DetectPlayer();
+        UpdateBehaviourState();
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, engagementRange);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, visionRange);
+    }
+
+    private void DetectPlayer()
+    {
+        isPlayerVisible = Physics.CheckSphere(transform.position, visionRange, playerLayerMask);
+        isPlayerInRange = Physics.CheckSphere(transform.position, engagementRange, playerLayerMask);
+    }
+
+    private void FireProjectile()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        Rigibody projectileRb = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
+        projectileRb.AddForce(transform.forward * forwardShotForce, ForceMode.Impulse);
+
+        Destroy(projectileRb.gameObject, 3f); // Détruit le projectile après 3 secondes
+    }
+
+    private void FindPatrolPoint()
+    {
+        float randomX = Random.Range(-patrolRadius, patrolRadius);
+        float randomZ = Random.Range(-patrolRadius, patrolRadius);
+
+        Vector3 potentialPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(potentialPoint, -playerTransform.up, 2f, terrainLayer))
+        {
+            currentPatrolPoint = potentialPoint;
+            hasPatrolpoint = true;
+        }
+    }
+
+    private IEnumerator AttackCooldownRoutine()
+    {
+        isOnAttackCooldown = true;
+        yield return new WaitForSeconds(attackCooldown);
+        isOnAttackCooldown = false;
+    }
+
+    private void PerformPatrol()
+    {
+        if (!hasPatrolpoint)
+            FindPatrolPoint();
+         
+        if (hasPatrolpoint)
+           navAgent.SetDestination(currentPatrolPoint);
+
+        if (Vector3.Distance(transform.position, currentPatrolPoint) < 1f)
+            hasPatrolpoint = false;
+    }
+
+    private void PerformChase()
+    {
+        if (playerTransform != null)
+            navAgent.SetDestination(playerTransform.position);
+    }
+
+    private void PerformAttack()
+    {
+        navAgent.SetDestination(transform.position); // s'arrête sur place pour attaquer
+
+        if (playerTransform != null) 
+        {
+            Transform.LookAt(playerTransform); // Regarde le joueur avant de tirer  
+        }
+
+        if (!isOnAttackCooldown)
+        {
+            FireProjectile();
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+
+    private void UpdateBehaviourState()
+    {
+        if (! isPlayerVisible && ! isPlayerInRange)
+        {
+            PerformPatrol();
+        }
+        else if (isPlayerVisible && !isPlayerInRange)
+        {
+            PerformChase();
+        }
+        else if (isPlayerInRange)
+        {
+            PerformAttack();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
