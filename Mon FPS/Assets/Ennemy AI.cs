@@ -6,6 +6,8 @@ public class EnnemyAI : MonoBehaviour
     [Header("References")]
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform firePoint;
 
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -21,7 +23,7 @@ public class EnnemyAI : MonoBehaviour
     private bool isOnAttackCooldown;
     [SerializeField] private float forwardShotForce = 10f;
     [SerializeField] private float verticalShotForce = 5f;
-
+    
     [Header("Detection Ranges")]  
     [SerializeField] private float visionRange = 15f;
     [SerializeField] private float engagementRange = 10f;
@@ -67,7 +69,7 @@ public class EnnemyAI : MonoBehaviour
     {
         if (projectilePrefab == null || firePoint == null) return;
 
-        Rigibody projectileRb = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
+        Rigidbody projectileRb = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         projectileRb.AddForce(transform.forward * forwardShotForce, ForceMode.Impulse);
 
         Destroy(projectileRb.gameObject, 3f); // Détruit le projectile après 3 secondes
@@ -118,7 +120,7 @@ public class EnnemyAI : MonoBehaviour
 
         if (playerTransform != null) 
         {
-            Transform.LookAt(playerTransform); // Regarde le joueur avant de tirer  
+            transform.LookAt(playerTransform); // Regarde le joueur avant de tirer  
         }
 
         if (!isOnAttackCooldown)
