@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508d151a191b8e441a71037905749c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAction
-  Gun: {fileID: 1926255215}
+  Gun: {fileID: 0}
 --- !u!1 &1393342552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,9 +1513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0a5c656f292ba4192e5aa55623ff8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
-  bulletPoint: {fileID: 1153238312}
-  ShootingSystem: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
-  BulletSpawnPoint: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+  ShootingSystem: {fileID: 0}
+  BulletSpawnPoint: {fileID: 0}
   ImpactParticleSystem: {fileID: 0}
   BulletTrail: {fileID: 0}
   ShootDelay: 0.5
@@ -1523,7 +1522,7 @@ MonoBehaviour:
   Mask:
     serializedVersion: 2
     m_Bits: 0
-  BouncingBullets: 1
+  BouncingBullets: 0
   BounceDistance: 10
 --- !u!1001 &2018618544
 PrefabInstance:
