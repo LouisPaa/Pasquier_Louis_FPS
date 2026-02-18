@@ -1,11 +1,12 @@
 using UnityEngine;  
 using System.Collections.Generic;
 using System.Collections;
+
 public class Gun : MonoBehaviour
 {
 
     //[SerializeField] private GameObject bulletPrefab;
-  //  [SerializeField] private Transform bulletPoint;
+    [SerializeField] private Transform bulletPoint;
     [SerializeField] private ParticleSystem ShootingSystem;
     [SerializeField] private Transform BulletSpawnPoint;
     [SerializeField] private ParticleSystem ImpactParticleSystem;
@@ -18,13 +19,19 @@ public class Gun : MonoBehaviour
 
     private float LastShootTime;
 
+    private TrailRenderer trail;
+void Awake()
+    {
+        trail = BulletTrail.GetComponent<TrailRenderer>();
+    }
     public void Shoot()
     {
         if ( LastShootTime + ShootDelay < Time.time)
         {
             ShootingSystem.Play();
             Vector3 direction = transform.forward;
-            TrailRenderer trail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
+            TrailRenderer trail  = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
+           
             if (Physics.Raycast(BulletSpawnPoint.position, direction, out RaycastHit hit, float .MaxValue, Mask))
             {
                 StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, BounceDistance, true));
@@ -85,10 +92,10 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    //  if (Input.GetMouseButtonDown(0)) // clic gauche
+      if (Input.GetMouseButtonDown(0)) // clic gauche
         {
 
-      //     Instantiate(BulletTrail, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); // instancie une balle qui partira vers l'avant
+           Instantiate(BulletTrail, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); // instancie une balle qui partira vers l'avant
         } 
     }
 }
