@@ -30,6 +30,12 @@ public class EnnemyAI : MonoBehaviour
 
     private bool isPlayerVisible;
     private bool isPlayerInRange;
+    private Animation animations;
+
+    private void Start()
+    {
+        
+    }
 
     private void Awake()
     {
@@ -48,6 +54,8 @@ public class EnnemyAI : MonoBehaviour
     {
         DetectPlayer();
         UpdateBehaviourState();
+
+      
     }
 
     private void OnDrawGizmosSelected()
