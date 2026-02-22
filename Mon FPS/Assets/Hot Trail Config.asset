@@ -14,7 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletTrailScriptableObject
   WidthCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.009485357
+      value: 0.18095239
+      inSlope: 0.004757233
+      outSlope: 0.004757233
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.8256043
+    - serializedVersion: 3
+      time: 1.0442737
+      value: 0.16831493
+      inSlope: -0.029868085
+      outSlope: -0.029868085
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.1480103
+      value: 0.163385
+      inSlope: -0.047523573
+      outSlope: -0.047523573
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -50,6 +77,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  Material: {fileID: 0}
+  Material: {fileID: 2100000, guid: 85111f7fb3c8d964683b7ea79230b3d6, type: 2}
   CornerVertices: 0
   EndCapVertices: 0
