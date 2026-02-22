@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56118e76f99069241bc756c3c69afb66, type: 3}
+  m_Name: SmokeTrail
+  m_EditorClassIdentifier: Assembly-CSharp::BulletTrailScriptableObject
+  WidthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: -0.01660224
+      outSlope: -0.01660224
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8796692
+      value: 0.23539552
+      inSlope: 0.001817604
+      outSlope: 0.001817604
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.39169726
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.8407482
+      value: 0.53637254
+      inSlope: 0.952085
+      outSlope: 0.952085
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.25804445
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.4576473
+      value: 3.0218284
+      inSlope: 3.4170835
+      outSlope: 3.4170835
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.20134443
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Time: 0.75
+  MinvertexDistance: 0.1
+  ColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  Material: {fileID: 2100000, guid: 7675d4c599f90574ea0120d4d7dd8ad7, type: 2}
+  CornerVertices: 0
+  EndCapVertices: 0
