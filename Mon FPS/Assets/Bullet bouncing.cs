@@ -27,6 +27,7 @@ public class Bulletbouncing : MonoBehaviour
 
     public virtual void Spawn(Vector3 Forward, int Damage, Transform Target)
     {
+ 
         this.Damage = Damage;
         this.Target = Target;
         Rigidbody.AddForce(Forward * MoveSpeed, ForceMode.VelocityChange);

@@ -9,22 +9,22 @@ public class EnnemyAI : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
 
-    [Header("Layers")]
+    [Header("Layers")] // Définie les layers avec lesquelles l'ennemy interagit
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private LayerMask playerLayerMask;
 
-    [Header ("Patrol Settings")] 
+    [Header ("Patrol Settings")] // définie les paramètre de patrouille
     [SerializeField] private float patrolRadius = 10f;
     private Vector3 currentPatrolPoint;
     private bool hasPatrolpoint;
 
-    [Header("Combat Settings")]
+    [Header("Combat Settings")] // définie les paramètres de combat
     [SerializeField] private float attackCooldown = 2f;
     private bool isOnAttackCooldown;
     [SerializeField] private float forwardShotForce = 10f;
     [SerializeField] private float verticalShotForce = 5f;
     
-    [Header("Detection Ranges")]  
+    [Header("Detection Ranges")]  // Définie les champs de détection et d'attaque
     [SerializeField] private float visionRange = 15f;
     [SerializeField] private float engagementRange = 10f;
 
@@ -55,7 +55,7 @@ public class EnnemyAI : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Update() // appelle les méthodes de détection et de l'état de comportement à chaque frame
     {
         DetectPlayer();
         UpdateBehaviourState();
@@ -63,7 +63,7 @@ public class EnnemyAI : MonoBehaviour
       
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected() //Défini les champs de détection et de combat dans l'éditeur
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, engagementRange);
@@ -72,13 +72,13 @@ public class EnnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, visionRange);
     }
 
-    private void DetectPlayer()
+    private void DetectPlayer() // Défini le comportement de l'ennemy en fonction de la position du joueur
     {
-        isPlayerVisible = Physics.CheckSphere(transform.position, visionRange, playerLayerMask);
-        isPlayerInRange = Physics.CheckSphere(transform.position, engagementRange, playerLayerMask);
+        isPlayerVisible = Physics.CheckSphere(transform.position, visionRange, playerLayerMask); // Défini le champ de vision de l'ennemy
+        isPlayerInRange = Physics.CheckSphere(transform.position, engagementRange, playerLayerMask); // Définie le champs d'attaque de l'ennemy
     }
 
-    private void FireProjectile()
+    private void FireProjectile() // Permet de tirer un projectile sur le joueur
     {
         if (projectilePrefab == null || firePoint == null) return;
 
@@ -88,7 +88,7 @@ public class EnnemyAI : MonoBehaviour
         Destroy(projectileRb.gameObject, 3f); // Détruit le projectile après 3 secondes
     }
 
-    private void FindPatrolPoint()
+    private void FindPatrolPoint() // Défini la zone de patrouille de l'ennemy
     {
         float randomX = Random.Range(-patrolRadius, patrolRadius);
         float randomZ = Random.Range(-patrolRadius, patrolRadius);
@@ -102,14 +102,14 @@ public class EnnemyAI : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackCooldownRoutine()
+    private IEnumerator AttackCooldownRoutine() // Défini le cooldown entre les attaques 
     {
         isOnAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
         isOnAttackCooldown = false;
     }
 
-    private void PerformPatrol()
+    private void PerformPatrol() // Permet à l'ennemy de patrouiller dans une zone définie
     {
         if (!hasPatrolpoint)
             FindPatrolPoint();
@@ -121,13 +121,13 @@ public class EnnemyAI : MonoBehaviour
             hasPatrolpoint = false;
     }
 
-    private void PerformChase()
+    private void PerformChase() // Permet à l'ennemy de pourisuivre le joueur lorsqu'il rentre dans son champs de vision 
     {
         if (playerTransform != null)
             navAgent.SetDestination(playerTransform.position);
     }
 
-    private void PerformAttack()
+    private void PerformAttack() // Permet à l'ennemy d'attaquer le joueur lorsqu'il rentre dans son champs d'attaque
     {
         navAgent.SetDestination(transform.position); // s'arrête sur place pour attaquer
 
@@ -143,7 +143,7 @@ public class EnnemyAI : MonoBehaviour
         }
     }
 
-    private void UpdateBehaviourState()
+    private void UpdateBehaviourState() // Défini comment agis l'ennemy en fonction de la positon du joueur
     {
         if (! isPlayerVisible && ! isPlayerInRange)
         {
