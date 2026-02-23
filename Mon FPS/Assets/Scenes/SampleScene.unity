@@ -157,6 +157,7 @@ MonoBehaviour:
   verticalShotForce: 5
   visionRange: 15
   engagementRange: 10
+  health: 100
 --- !u!195 &122798093
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -662,6 +663,7 @@ MonoBehaviour:
   verticalShotForce: 50
   visionRange: 15
   engagementRange: 10
+  health: 10
 --- !u!136 &569910529
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1734,6 +1736,7 @@ MonoBehaviour:
     m_Bits: 1
   BouncingBullets: 1
   BounceDistance: 10
+  Dammage: 5
 --- !u!1001 &2018618544
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,10 +31,15 @@ public class EnnemyAI : MonoBehaviour
     private bool isPlayerVisible;
     private bool isPlayerInRange;
     private Animation animations;
+    public int health = 100;
 
-    private void Start()
+    public void DoDammage(int dammage)
     {
-        
+        health -= dammage;
+        if ( health <= 0)
+        {
+          Destroy(gameObject);
+        }
     }
 
     private void Awake()

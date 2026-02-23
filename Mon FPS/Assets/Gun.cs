@@ -16,9 +16,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private LayerMask Mask;
     [SerializeField] private bool BouncingBullets;
     [SerializeField] private float BounceDistance = 10f; // La distance maximale à laquelle la balle peut rebondir
-
+    
     private float LastShootTime;
-
+    public float Dammage;
     private TrailRenderer trail;
 void Awake()
     {
@@ -41,6 +41,15 @@ void Awake()
                 StartCoroutine(SpawnTrail(trail, direction * 100, Vector3.zero, BounceDistance, false));
             }
                 LastShootTime = Time.time;
+
+            if ( Physics.Raycast(BulletSpawnPoint.position, direction , out RaycastHit hitInfo, float. MaxValue, Mask))
+            {
+                EnnemyAI Unit;
+                if (hitInfo.collider.TryGetComponent<EnnemyAI>(out Unit))
+                {
+                    Unit.DoDammage((int)Dammage);
+                }
+            }
         }
     }
 
@@ -77,6 +86,8 @@ void Awake()
                 {
                     yield return StartCoroutine(SpawnTrail(Trail, bounceDirection * BounceDistance, Vector3.zero, 0, false));
                 }
+
+                
             }
         }
 
